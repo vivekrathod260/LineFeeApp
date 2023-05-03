@@ -35,15 +35,10 @@ const Profile = ({ navigation, route }) => {
 
     const handelLogOut = () => {
         AsyncStorage.getItem("token").then((value)=>{
-            if(value==null)
-            {
-                navigation.navigate('Login',{serverURL:serverURL})
-            }
-            else
-            {
-                AsyncStorage.setItem("token", "NULL")
-                navigation.navigate('Login',{serverURL:serverURL})
-            }
+            
+            token = "NULL"
+            AsyncStorage.setItem("token", "NULL")
+            navigation.navigate('Login',{serverURL:serverURL})
         })
         .catch(
             ()=>console.log("token not found in asyncstorage")

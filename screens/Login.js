@@ -66,14 +66,16 @@ const Login = ({ navigation, route }) => {
                 }
             })
             .then(response => {
-                console.log(response.data)
+
                 if(response.data.status=="ok")
                 {
                     var jwtToken = response.data.token;
+
+                    console.log(jwtToken)
     
                     AsyncStorage.setItem("token",jwtToken)
     
-                    navigation.navigate('BottomTabNavigation',{serverURL:serverURL,token:jwtToken})
+                    navigation.navigate('Profile',{serverURL:serverURL,token:jwtToken})
 
                     setToken(jwtToken);
                 }
