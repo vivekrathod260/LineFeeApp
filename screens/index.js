@@ -2,9 +2,6 @@ import OnboardingStarter from './OnboardingStarter'
 import GetStarted from './GetStarted'
 import Login from './Login'
 import Register from './Register'
-import ResetPassword from './ResetPassword'
-import OTPVerification from './OTPVerification'
-import SuccessVerification from './SuccessVerification'
 
 import CreateQueue from './CreateQueue'
 import ManageQueue from './ManageQueue'
@@ -17,9 +14,6 @@ export {
     GetStarted,
     Login,
     Register,
-    ResetPassword,
-    OTPVerification,
-    SuccessVerification,
     
     CreateQueue,
     ManageQueue,

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 
-import { GetStarted, Login, JoinQueue, OTPVerification, OnboardingStarter, Register, ResetPassword, SuccessVerification, Profile,} from './screens'
+import { GetStarted, Login, OnboardingStarter, Register} from './screens'
 import AdminPanel from './screens/AdminPanel'
 import CustomerPanel from './screens/CustomerPanel'
 import BottomTabNavigation from './navigation/BottomTabNavigation'
@@ -144,27 +144,6 @@ export default function App() {
                 <Stack.Screen
                     name="Register"
                     component={Register}
-                    options={{
-                        headerShown: false,
-                    }}
-                />
-                <Stack.Screen
-                    name="ResetPassword"
-                    component={ResetPassword}
-                    options={{
-                        headerShown: false,
-                    }}
-                />
-                <Stack.Screen
-                    name="OTPVerification"
-                    component={OTPVerification}
-                    options={{
-                        headerShown: false,
-                    }}
-                />
-                <Stack.Screen
-                    name="SuccessVerification"
-                    component={SuccessVerification}
                     options={{
                         headerShown: false,
                     }}
