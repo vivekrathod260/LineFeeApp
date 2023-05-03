@@ -43,7 +43,8 @@ const OnboardingStarter = ({ navigation, route }) => {
                 {
                     backgroundColor: '#fff',
                     image: (
-                        <Image
+                        <Image style={{width:276,
+                        height:264}}
                             source={require('../assets/images/onboarding_1.png')}
                         />
                     ),
@@ -54,7 +55,8 @@ const OnboardingStarter = ({ navigation, route }) => {
                 {
                     backgroundColor: '#fff',
                     image: (
-                        <Image
+                        <Image style={{width:276,
+                        height:264}}
                             source={require('../assets/images/onboarding_2.png')}
                         />
                     ),

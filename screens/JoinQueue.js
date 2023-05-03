@@ -109,6 +109,8 @@ const JoinQueue = ({ navigation, route }) => {
                         source={images.secureBlood}
                         resizeMode="contain"
                         style={{
+                            width:276,
+                            height:264,
                             marginRight: 30,
                         }}
                     />
