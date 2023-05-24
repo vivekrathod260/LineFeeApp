@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native'
+import { View, Text, Image, TouchableOpacity, ScrollView, Alert } from 'react-native'
 import React, { useCallback, useEffect, useReducer, useState } from 'react'
 
 import axios from 'axios';
@@ -15,41 +15,47 @@ import Input from '../components/Input'
 import { MaterialIcons, AntDesign, FontAwesome } from '@expo/vector-icons'
 
 import { COLORS, FONTS, SIZES, images } from '../constants'
+import { async } from 'validate.js';
 
 
 
 
 
 const Profile = ({ navigation, route }) => {
-    
-    const [serverURL, setServerURL] = useState(route.params.serverURL)
-    var url = route.params.serverURL
-    token = route.params.token
-
 
     var inputText = ""
 
+    const [serverURL, setServerURL] = useState("http://10.0.2.2:8000")
+    const [user, setUser] = useState("User")
 
+    useEffect(() => {
+        navigation.addListener('focus', async () => {
+            await AsyncStorage.getItem("server").then((value)=>{
+                setServerURL(value)
+            })
+            await AsyncStorage.getItem("token").then((value)=>{
+                AsyncStorage.setItem("user",jwt_decode(value).userName)
+            })
+            await AsyncStorage.getItem("user").then((value)=>{
+                setUser(value)
+            })
+        })
+    })
 
 
 
     const handelLogOut = () => {
-        AsyncStorage.getItem("token").then((value)=>{
-            
-            token = "NULL"
-            AsyncStorage.setItem("token", "NULL")
-            navigation.navigate('Login',{serverURL:serverURL})
-        })
-        .catch(
-            ()=>console.log("token not found in asyncstorage")
-        )
+
+        AsyncStorage.setItem("token", "NULL")
+        AsyncStorage.setItem("user", "User")
+        navigation.navigate('Login')
     }
 
     const handelJoinServer = () => {
 
         axios.get(inputText)
             .then(response => {
-              const data = response.data.status;
+              var data = response.data.status;
               console.log(data);
               if(data=="you got correct server for line")
               {
@@ -57,7 +63,7 @@ const Profile = ({ navigation, route }) => {
                 setServerURL(inputText)
                 Alert.alert(
                     'Connected',
-                    'connect to this server',
+                    'connected to this server',
                     [
                       { text: 'OK', onPress: () => {} },
                     ]
@@ -65,6 +71,7 @@ const Profile = ({ navigation, route }) => {
               }
             })
             .catch(error => {
+                console.log(error)
                 Alert.alert(
                     'Error',
                     'Cannot connect to this server',
@@ -72,8 +79,6 @@ const Profile = ({ navigation, route }) => {
                       { text: 'OK', onPress: () => {} },
                     ]
                   );
-                console.log(textInput+" Axios Network error")
-
             });
     }
 
@@ -87,7 +92,7 @@ const Profile = ({ navigation, route }) => {
                 }}
             >
                 <TouchableOpacity
-                    onPress={() => navigation.navigate('CreateQueue',{serverURL:serverURL, token:token})}
+                    onPress={() => navigation.navigate('CreateQueue')}
                     style={{
                         height: 44,
                         width: 44,
@@ -125,36 +130,8 @@ const Profile = ({ navigation, route }) => {
                         borderRadius: SIZES.padding,
                     }}
                 />
-                <Text style={{ ...FONTS.h1, marginTop: 24 }}>{jwt_decode(token).userName}</Text>
-            </View>
-        )
-    }
+                {user && <Text style={{ ...FONTS.h1, marginTop: 24 }}>{user}</Text>}
 
-    function renderOptions() {
-        return (
-            <View
-                style={{
-                    flexDirection: 'column',
-                }}
-            >
-                <TouchableOpacity
-                    style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        marginVertical: 12,
-                    }}
-                    onPress={() => {handelLogOut()}}
-                >
-                    <AntDesign name="logout" size={24} color={COLORS.primary} />
-                    <Text
-                        style={{
-                            ...FONTS.body3,
-                            marginLeft: 24,
-                        }}
-                    >
-                        Logout
-                    </Text>
-                </TouchableOpacity>
             </View>
         )
     }
@@ -246,20 +223,69 @@ const Profile = ({ navigation, route }) => {
         )
     }
 
+    function renderOptions() {
+        return (
+            <View
+                style={{
+                    flexDirection: 'column',
+                    marginVertical: 23
+                }}
+            >
+                <TouchableOpacity
+                    style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        marginVertical: 12,
+                    }}
+                    onPress={() => {navigation.navigate("NearbyPlaces")}}
+                >
+                    <AntDesign name="find" size={24} color={COLORS.primary} />
+                    <Text
+                        style={{
+                            ...FONTS.body3,
+                            marginLeft: 24,
+                        }}
+                    >
+                        {"Find Nearby Places"}
+                    </Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                    style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        marginVertical: 12,
+                    }}
+                    onPress={() => {handelLogOut()}}
+                >
+                    <AntDesign name="logout" size={24} color={COLORS.primary} />
+                    <Text
+                        style={{
+                            ...FONTS.body3,
+                            marginLeft: 24,
+                        }}
+                    >
+                        Logout
+                    </Text>
+                </TouchableOpacity>
+            </View>
+        )
+    }
+
 
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <PageContainer>
-                <View style={{ marginHorizontal: 22 }}>
+                <View style={{ marginHorizontal: 22, justifyContent:"flex-start" }}>
                     {renderHeader()}
-                    <ScrollView>
+                    {/* <ScrollView> */}
                         <View style={{height:800}}>
                             {renderProfile()}
                             {serverCard()}
                             {renderOptions()} 
                         </View>
-                    </ScrollView>
+                    {/* </ScrollView> */}
                 </View>
             </PageContainer>
         </SafeAreaView>

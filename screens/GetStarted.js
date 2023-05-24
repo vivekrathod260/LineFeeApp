@@ -21,29 +21,16 @@ import {FontAwesome} from '@expo/vector-icons'
 
 const GetStarted = ({ navigation, route }) => {
 
-    var url = route.params.serverURL
     
     var textInput = ""
-    const [serverURL, setServerURL] = useState(route.params.serverURL)
+    const [serverURL, setServerURL] = useState("http://10.0.2.2:8000")
 
 
 
     useEffect(() => {
-
         AsyncStorage.getItem("server").then((value)=>{
-            if(value==null)
-            {
-                AsyncStorage.setItem("server","http://10.0.2.2:8000")
-                setServerURL("http://10.0.2.2:8000")
-            }
-            else
-            {
-                setServerURL(value)
-            }
+            setServerURL(value)
         })
-        .catch(
-            ()=>console.log("serverURL not found in asyncstorage")
-        )
 
     }, [])
 
@@ -216,7 +203,7 @@ const GetStarted = ({ navigation, route }) => {
                         <View style={{width:"100%", marginTop:70, marginBottom:10}}>
                             <Button
                                 title="LOGIN"
-                                onPress={() => navigation.navigate('Login',{serverURL:serverURL})}
+                                onPress={() => navigation.navigate('Login')}
                                 style={{
                                     width: '100%',
                                     marginBottom: SIZES.padding,
@@ -224,7 +211,7 @@ const GetStarted = ({ navigation, route }) => {
                             />
                             <Button
                                 title="REGISTER"
-                                onPress={() => navigation.navigate('Register',{serverURL:serverURL})}
+                                onPress={() => navigation.navigate('Register')}
                                 filled
                                 style={{
                                     width: '100%',

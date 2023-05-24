@@ -4,6 +4,8 @@ import React, { useEffect, useState } from 'react'
 
 import axios from 'axios';
 
+import AsyncStorage from '@react-native-async-storage/async-storage'
+
 
 import { SafeAreaView } from 'react-native-safe-area-context'
 import PageContainer from '../components/PageContainer'
@@ -19,57 +21,64 @@ import DonationCard from '../components/DonationCard'
 
 
 const ManageQueue = ({ navigation, route }) => {
-    
-    var serverURL = route.params.serverURL
-    var token = route.params.token
-
 
     const [list, setList] = useState([])
     
 
-    useEffect(()=>{
+    const [serverURL, setServerURL] = useState("http://10.0.2.2:8000")
 
-        console.log("hi")
-
-        axios.post(
-            serverURL + '/myqueue',
-            {},
-            {
-                headers: {
-                    'Authorization': `JWT ${token}`,
-                    'Content-Type': 'application/json'
-                }
+    useEffect(() => {
+        navigation.addListener('focus', async () => {
+            await console.log("hello ")
+            await AsyncStorage.getItem("server").then((value)=>{
+                setServerURL(value)
             })
-            .then(response => {
-                var status = response.data.status;
-
-                if(status=="ok")
-                {
-                    setList(response.data.lst)
-                }
-                else
-                {
-                    Alert.alert(
-                        'Error',
-                        status,
-                        [
-                        { text: 'OK', onPress: () => {} },
-                        ]
-                    );
-                }
+            await AsyncStorage.getItem("token").then((value)=>{
+                axios.post(
+                    serverURL + '/myqueue',
+                    {},
+                    {
+                        headers: {
+                            'Authorization': `JWT ${value}`,
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then(response => {
+                        var status = response.data.status;
+        
+                        if(status=="ok")
+                        {
+                            setList(response.data.lst)
+                        }
+                        else
+                        {
+                            Alert.alert(
+                                'Error',
+                                status,
+                                [
+                                { text: 'OK', onPress: () => {} },
+                                ]
+                            );
+                        }
+                    })
+                    .catch(error => {
+        
+                        Alert.alert(
+                            'Error',
+                            'Cannot get manage details',
+                            [
+                            { text: 'OK', onPress: () => {} },
+                            ]
+                        );
+        
+                    });
             })
-            .catch(error => {
+        })
+        
 
-                Alert.alert(
-                    'Error',
-                    'Cannot get manage details',
-                    [
-                    { text: 'OK', onPress: () => {} },
-                    ]
-                );
 
-            });
-    },[])
+    })
+
 
 
 
@@ -83,7 +92,7 @@ const ManageQueue = ({ navigation, route }) => {
                 }}
             >
                 <TouchableOpacity
-                    onPress={() => navigation.navigate('JoinQueue',{serverURL:serverURL, token:token})}
+                    onPress={() => navigation.navigate('JoinQueue')}
                     style={{
                         height: 44,
                         width: 44,
@@ -114,7 +123,10 @@ const ManageQueue = ({ navigation, route }) => {
                             name={q.split("#")[1]}
                             location={q.split("#")[0]}
                             // postedDate={"11"}
-                            onPress={()=> navigation.navigate("AdminPanel",{serverURL:serverURL, token:token, queueName:q.split("#")[1]})}
+                            onPress={()=> {
+                                AsyncStorage.setItem("APqueuename",q.split("#")[1])
+                                navigation.navigate("AdminPanel")
+                            }}
                         />
                     ))}
                 </View>

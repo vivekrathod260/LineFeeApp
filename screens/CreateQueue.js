@@ -19,9 +19,6 @@ import Input from '../components/Input'
 
 
 const CreateQueue = ({ navigation, route }) => {
-    
-    var serverURL = route.params.serverURL
-    var token = route.params.token
 
     var queueName = ""
     var location = ""
@@ -29,10 +26,26 @@ const CreateQueue = ({ navigation, route }) => {
     var purpose = ""
     var instruction = ""
 
+    const [token, setToken] = useState("NULL")
+    const [serverURL, setServerURL] = useState("http://10.0.2.2:8000")
+    var str = ""
+
+    useEffect(() => {
+        AsyncStorage.getItem("server").then((value)=>{
+            setServerURL(value)
+        })
+        AsyncStorage.getItem("token").then((value)=>{
+            setToken(value)
+        })
+
+    }, [])
+
+
 
 
 
     const handelCreateQueue = () => {
+        str = token
         axios.post(
             serverURL + '/createqueue', 
             {
@@ -43,7 +56,7 @@ const CreateQueue = ({ navigation, route }) => {
             }, 
             {
                 headers: {
-                    'Authorization': `JWT ${token}`,
+                    'Authorization': `JWT ${str}`,
                     'Content-Type': 'application/json'
                 }
             })
@@ -52,7 +65,8 @@ const CreateQueue = ({ navigation, route }) => {
     
                 if(status=='created !')
                 {
-                    navigation.navigate('AdminPanel',{serverURL:serverURL, token:token, queueName:queueName})
+                    AsyncStorage.setItem("APqueuename",queueName)
+                    navigation.navigate('AdminPanel')
                 }
                 else
                 {
@@ -89,7 +103,7 @@ const CreateQueue = ({ navigation, route }) => {
                 }}
             >
                 <TouchableOpacity
-                    onPress={() => navigation.navigate('JoinQueue',{serverURL:serverURL, token:token})}
+                    onPress={() => navigation.navigate('JoinQueue')}
                     style={{
                         height: 44,
                         width: 44,

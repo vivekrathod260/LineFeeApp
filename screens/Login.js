@@ -21,34 +21,23 @@ import { MaterialIcons, FontAwesome } from '@expo/vector-icons'
 
 const Login = ({ navigation, route }) => {
 
-    var serverURL = route.params.serverURL
-
     
     var username= ""
     var password =""
+
     const [token, setToken] = useState("NULL")
+    const [serverURL, setServerURL] = useState("http://10.0.2.2:8000")
 
     useEffect(() => {
-
-        AsyncStorage.getItem("token").then((value)=>{
-            if(value==null)
-            {
-                AsyncStorage.setItem("token","NULL")
-                setToken("NULL")
-            } else if(value=="NULL")
-            {
-                
-            }
-            else
-            {
-                setToken(value)
-            }
+        AsyncStorage.getItem("server").then((value)=>{
+            setServerURL(value)
         })
-        .catch(
-            ()=>console.log("token not found in asyncstorage")
-        )
+        AsyncStorage.getItem("token").then((value)=>{
+            setToken(value)
+        })
 
     }, [])
+
 
     const handelLogin = () => {
 
@@ -75,7 +64,7 @@ const Login = ({ navigation, route }) => {
     
                     AsyncStorage.setItem("token",jwtToken)
     
-                    navigation.navigate('Profile',{serverURL:serverURL,token:jwtToken})
+                    navigation.navigate('BottomTabNavigation')
 
                     setToken(jwtToken);
                 }
@@ -188,7 +177,7 @@ const Login = ({ navigation, route }) => {
                         </Text>
 
                         <TouchableOpacity
-                            onPress={() => navigation.navigate('Register',{serverURL:serverURL})}
+                            onPress={() => navigation.navigate('Register')}
                         >
                             <Text
                                 style={{

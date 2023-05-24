@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { GetStarted, Login, OnboardingStarter, Register} from './screens'
 import AdminPanel from './screens/AdminPanel'
 import CustomerPanel from './screens/CustomerPanel'
+import NearbyPlaces from './screens/NearbyPlaces'
 import BottomTabNavigation from './navigation/BottomTabNavigation'
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -99,7 +100,7 @@ export default function App() {
                 <Stack.Screen
                     name="OnboardingStarter"
                     component={OnboardingStarter}
-                    initialParams={{ serverURL:serverURL }}
+                    // initialParams={{ serverURL:serverURL }}
                     options={{
                         headerShown: false,
                     }}
@@ -107,7 +108,7 @@ export default function App() {
                 <Stack.Screen
                     name="GetStarted"
                     component={GetStarted}
-                    initialParams={{ serverURL:serverURL }}
+                    // initialParams={{ serverURL:serverURL }}
                     options={{
                         headerShown: false,
                     }}
@@ -115,7 +116,7 @@ export default function App() {
                 <Stack.Screen
                     name="BottomTabNavigation"
                     component={BottomTabNavigation}
-                    initialParams={{ serverURL:serverURL, token:token }}
+                    // initialParams={{ serverURL:serverURL, token:token }}
                     options={{
                         headerShown: false,
                     }}
@@ -144,6 +145,13 @@ export default function App() {
                 <Stack.Screen
                     name="Register"
                     component={Register}
+                    options={{
+                        headerShown: false,
+                    }}
+                />
+                <Stack.Screen
+                    name="NearbyPlaces"
+                    component={NearbyPlaces}
                     options={{
                         headerShown: false,
                     }}

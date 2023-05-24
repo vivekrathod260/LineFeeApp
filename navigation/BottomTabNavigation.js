@@ -29,8 +29,7 @@ const screenOptions = {
 
 const BottomTabNavigation = ({ navigation, route }) => {
 
-    var serverURL = route.params.serverURL
-    var token = route.params.token
+
 
     return (
         <Tab.Navigator initialRouteName="JoinQueue" screenOptions={screenOptions}>
@@ -38,7 +37,7 @@ const BottomTabNavigation = ({ navigation, route }) => {
             <Tab.Screen
                 name="CreateQueue"
                 component={CreateQueue}
-                initialParams={{serverURL:serverURL, token:token}}
+                // initialParams={{serverURL:serverURL, token:token}}
                 options={{
                     tabBarIcon: ({ focused }) => {
                         return (
@@ -59,7 +58,7 @@ const BottomTabNavigation = ({ navigation, route }) => {
             <Tab.Screen
                 name="ManageQueue"
                 component={ManageQueue}
-                initialParams={{serverURL:serverURL, token:token}}
+                // initialParams={{serverURL:serverURL, token:token}}
                 options={{
                     tabBarIcon: ({ focused }) => {
                         return (
@@ -80,7 +79,7 @@ const BottomTabNavigation = ({ navigation, route }) => {
             <Tab.Screen
                 name="JoinQueue"
                 component={JoinQueue}
-                initialParams={{serverURL:serverURL, token:token}}
+                // initialParams={{serverURL:serverURL, token:token}}
                 options={{
                     tabBarIcon: ({ focused }) => {
                         return (
@@ -112,7 +111,7 @@ const BottomTabNavigation = ({ navigation, route }) => {
             <Tab.Screen
                 name="MyJoinedQueues"
                 component={MyJoinedQueues}
-                initialParams={{serverURL:serverURL, token:token}}
+                // initialParams={{serverURL:serverURL, token:token}}
                 options={{
                     tabBarIcon: ({ focused }) => {
                         return (
@@ -133,7 +132,7 @@ const BottomTabNavigation = ({ navigation, route }) => {
             <Tab.Screen
                 name="Profile"
                 component={Profile}
-                initialParams={{serverURL:serverURL, token:token}}
+                // initialParams={{serverURL:serverURL, token:token}}
                 options={{
                     tabBarIcon: ({ focused }) => {
                         return (

@@ -3,6 +3,8 @@ import React, {useState, useEffect} from 'react'
 
 import axios from 'axios';
 
+import AsyncStorage from '@react-native-async-storage/async-storage'
+
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 import DonationCard from '../components/DonationCard'
@@ -11,6 +13,7 @@ import PageContainer from '../components/PageContainer'
 import { COLORS, SIZES, FONTS } from '../constants'
 
 import { MaterialIcons } from '@expo/vector-icons'
+import { async } from 'validate.js';
 
 
 
@@ -18,55 +21,64 @@ import { MaterialIcons } from '@expo/vector-icons'
 
 const MyJoinedQueues = ({ navigation, route }) => {
 
-    var serverURL = route.params.serverURL
-    var token = route.params.token
-
-
     const [list, setList] = useState([])
 
-
+    const [serverURL, setServerURL] = useState("http://10.0.2.2:8000")
 
     useEffect(() => {
+        navigation.addListener('focus', async () => {
+            // await console.log("hello ")
 
-        axios.post(
-            serverURL + '/myjoinedqueue',
-            {},
-            {
-                headers: {
-                    'Authorization': `JWT ${token}`,
-                    'Content-Type': 'application/json'
-                }
+            await AsyncStorage.getItem("server").then((value)=>{
+                setServerURL(value)
             })
-            .then(response => {
-                var status = response.data.status;
 
-                if(status=="ok")
-                {
-                    setList(response.data.lst)
-                }
-                else
-                {
-                    Alert.alert(
-                        'Error',
-                        status,
-                        [
-                        { text: 'OK', onPress: () => {} },
-                        ]
-                    );
-                }
+            await AsyncStorage.getItem("token").then((value)=>{
+                axios.post(
+                    serverURL + '/myjoinedqueue',
+                    {},
+                    {
+                        headers: {
+                            'Authorization': "JWT " + value,
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then(response => {
+                        var status = response.data.status;
+        
+                        if(status=="ok")
+                        {
+                            setList(response.data.lst)
+                        }
+                        else
+                        {
+                            Alert.alert(
+                                'Error',
+                                status,
+                                [
+                                { text: 'OK', onPress: () => {} },
+                                ]
+                            );
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error)
+                        Alert.alert(
+                            'Error',
+                            'Cannot get queue details',
+                            [
+                            { text: 'OK', onPress: () => {} },
+                            ]
+                        );
+        
+                    });
             })
-            .catch(error => {
-                console.log(error)
-                Alert.alert(
-                    'Error',
-                    'Cannot get queue details',
-                    [
-                    { text: 'OK', onPress: () => {} },
-                    ]
-                );
+        })
+        
+        
 
-            });
-    },[])
+    })
+
 
 
 
@@ -81,7 +93,7 @@ const MyJoinedQueues = ({ navigation, route }) => {
                 }}
             >
                 <TouchableOpacity
-                    onPress={() => navigation.navigate('JoinQueue',{serverURL:serverURL, token:token})}
+                    onPress={() => navigation.navigate('JoinQueue')}
                     style={{
                         height: 44,
                         width: 44,
@@ -111,7 +123,11 @@ const MyJoinedQueues = ({ navigation, route }) => {
                         name={q.split("#")[1]}
                         location={q.split("#")[0]}
                         // postedDate={"11"}
-                        onPress={()=> navigation.navigate("CustomerPanel",{serverURL:serverURL, token:token, queueName:q.split("#")[1], creatorID:q.split("#")[0]})}
+                        onPress={async ()=> {
+                            await AsyncStorage.setItem("JQqueueName",q.split("#")[1])
+                            await AsyncStorage.setItem("JQcreatorname",q.split("#")[0])
+                            await navigation.navigate("CustomerPanel")
+                        }}
                     />
                 ))}
             </ScrollView>

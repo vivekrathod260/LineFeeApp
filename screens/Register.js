@@ -1,5 +1,5 @@
 import { View, Text, ScrollView, Image, TouchableOpacity, Alert } from 'react-native'
-import React, { useCallback, useReducer } from 'react'
+import React, { useCallback, useReducer, useState, useEffect } from 'react'
 
 import axios from 'axios';
 
@@ -15,8 +15,6 @@ import Button from '../components/Button'
 
 const Register = ({ navigation, route }) => {
 
-    var serverURL = route.params.serverURL
-
     var username = ""
     var fname = ""
     var lname = ""
@@ -24,6 +22,14 @@ const Register = ({ navigation, route }) => {
     var password1 = ""
     var password2 = ""
 
+    const [serverURL, setServerURL] = useState("http://10.0.2.2:8000")
+
+    useEffect(() => {
+        AsyncStorage.getItem("server").then((value)=>{
+            setServerURL(value)
+        })
+
+    }, [])
 
     const handelRegister = () => {
         if(password1!=password2)
@@ -54,7 +60,7 @@ const Register = ({ navigation, route }) => {
                     var status = response.data.status;
                     console.log(status);
                     if(status="User created")
-                        navigation.navigate('Login',{serverURL:serverURL})
+                        navigation.navigate('Login')
                     else {
                         Alert.alert(
                             'Error',
@@ -197,7 +203,7 @@ const Register = ({ navigation, route }) => {
                             </Text>
 
                             <TouchableOpacity
-                                onPress={() => navigation.navigate('Login',{serverURL:serverURL})}
+                                onPress={() => navigation.navigate('Login')}
                             >
                                 <Text
                                     style={{

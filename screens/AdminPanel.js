@@ -2,6 +2,8 @@ import { View, Text, Image, TouchableOpacity, Alert, ScrollView } from 'react-na
 
 import axios from 'axios';
 
+import AsyncStorage from '@react-native-async-storage/async-storage'
+
 import React, { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import PageContainer from '../components/PageContainer'
@@ -16,59 +18,138 @@ import { COLORS, FONTS, SIZES, images } from '../constants'
 
 const AdminPanel = ({ navigation, route }) => {
     
-    var serverURL = route.params.serverURL
-    var token = route.params.token
-    var queueName = route.params.queueName
+
+    // var queueName = ""
+
+    // const [data, setData] = useState({})
+
+    // const [token, setToken] = useState("NULL")
+    // const [serverURL, setServerURL] = useState("http://10.0.2.2:8000")
+    // var str = ""
+
+    // useEffect(() => {
+    //     AsyncStorage.getItem("server").then((value)=>{
+    //         setServerURL(value)
+    //     })
+    //     AsyncStorage.getItem("token").then((value)=>{
+    //         setToken(value)
+    //     })
+    //     AsyncStorage.getItem("APqueuename").then((value)=>{
+    //         queueName = value
+    //     })
+
+
+    //     console.log("hi")
+    //     str = token
+    //     axios.post(
+    //         serverURL + '/adminpanel', 
+    //         {
+    //             queueName: queueName
+    //         }, 
+    //         {
+    //             headers: {
+    //                 'Authorization': `JWT ${str}`,
+    //                 'Content-Type': 'application/json'
+    //             }
+    //         })
+    //         .then(response => {
+    //             var status = response.data.status;
+
+    //             if(status=="ok")
+    //             {
+    //                 setData(response.data.data)
+    //             }
+    //             else
+    //             {
+    //                 Alert.alert(
+    //                     'Error',
+    //                     status,
+    //                     [
+    //                     { text: 'OK', onPress: () => {} },
+    //                     ]
+    //                 );
+    //             }
+    //         })
+    //         .catch(error => {
+
+    //             Alert.alert(
+    //                 'Error',
+    //                 'Cannot get queue details',
+    //                 [
+    //                 { text: 'OK', onPress: () => {} },
+    //                 ]
+    //             );
+
+    //         });
+
+    // }, [])
+
 
 
 
     const [data, setData] = useState({})
-
+    const [serverURL, setServerURL] = useState("http://10.0.2.2:8000")
+    const [token, setToken] = useState("")
+    const [queueName, setQueueName] = useState("")
 
     useEffect(() => {
-
-        console.log("hi")
-        axios.post(
-            serverURL + '/adminpanel', 
-            {
-                queueName: queueName
-            }, 
-            {
-                headers: {
-                    'Authorization': `JWT ${token}`,
-                    'Content-Type': 'application/json'
-                }
+        navigation.addListener('focus', async () => {
+            var apqn = ""
+            await AsyncStorage.getItem("server").then((value)=>{
+                setServerURL(value)
             })
-            .then(response => {
-                var status = response.data.status;
-
-                if(status=="ok")
-                {
-                    setData(response.data.data)
-                }
-                else
-                {
-                    Alert.alert(
-                        'Error',
-                        status,
-                        [
-                        { text: 'OK', onPress: () => {} },
-                        ]
-                    );
-                }
+            AsyncStorage.getItem("APqueuename").then((value)=>{
+                apqn = value
+                setQueueName(value)
             })
-            .catch(error => {
+            await AsyncStorage.getItem("token").then((value)=>{
+                setToken(value)
+                axios.post(
+                    serverURL + '/adminpanel', 
+                    {
+                        queueName: apqn
+                    }, 
+                    {
+                        headers: {
+                            'Authorization': `JWT ${value}`,
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then(response => {
+                        var status = response.data.status;
+                        if(status=="ok")
+                        {
+                            setData(response.data.data)
+                        }
+                        else
+                        {
+                            Alert.alert(
+                                'Error',
+                                status,
+                                [
+                                { text: 'OK', onPress: () => {navigation.navigate('ManageQueue')} },
+                                ]
+                            );
+                        }
+                    })
+                    .catch(error => {
+                        Alert.alert(
+                            'Error',
+                            'Cannot get queue details',
+                            [
+                            { text: 'OK', onPress: () => {navigation.navigate('ManageQueue')} },
+                            ]
+                        );
+        
+                    });
+            })
+            
+        })
 
-                Alert.alert(
-                    'Error',
-                    'Cannot get queue details',
-                    [
-                    { text: 'OK', onPress: () => {} },
-                    ]
-                );
+    })
 
-            });
-    },[])
+
+
 
 
     const handelPop = () => {
@@ -86,6 +167,7 @@ const AdminPanel = ({ navigation, route }) => {
             ]
         );
 
+        str = token
         axios.post(
             serverURL + '/pop', 
             {
@@ -93,7 +175,7 @@ const AdminPanel = ({ navigation, route }) => {
             }, 
             {
                 headers: {
-                    'Authorization': `JWT ${token}`,
+                    'Authorization': `JWT ${str}`,
                     'Content-Type': 'application/json'
                 }
             })
@@ -105,6 +187,16 @@ const AdminPanel = ({ navigation, route }) => {
                     Alert.alert(
                         'Error',
                         status,
+                        [
+                            { text: 'OK', onPress: () => {} },
+                        ]
+                    );
+                }
+                else
+                {
+                    Alert.alert(
+                        'Success',
+                        "Popped successfully",
                         [
                             { text: 'OK', onPress: () => {} },
                         ]
@@ -125,7 +217,51 @@ const AdminPanel = ({ navigation, route }) => {
     }
 
     const handelDelete = () => {
+        var value = token
+        axios.post(
+            serverURL + '/deletequeue', 
+            {
+                queueName: queueName
+            }, 
+            {
+                headers: {
+                    'Authorization': `JWT ${value}`,
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                var status = response.data.status;
+                if(status=="queue deleted !")
+                {
+                    Alert.alert(
+                        'Success',
+                        "Queue deleted successfully",
+                        [
+                        { text: 'OK', onPress: () => {navigation.navigate('ManageQueue')} },
+                        ]
+                    );
+                }
+                else
+                {
+                    Alert.alert(
+                        'Error',
+                        status,
+                        [
+                        { text: 'OK', onPress: () => {navigation.navigate('AdminPanel')} },
+                        ]
+                    );
+                }
+            })
+            .catch(error => {
+                Alert.alert(
+                    'Error',
+                    'Cannot get queue details',
+                    [
+                    { text: 'OK', onPress: () => {navigation.navigate('ManageQueue')} },
+                    ]
+                );
 
+            });
     }
 
     function renderHeader() {
@@ -138,7 +274,7 @@ const AdminPanel = ({ navigation, route }) => {
                 }}
             >
                 <TouchableOpacity
-                    onPress={() => navigation.navigate('ManageQueue',{serverURL:serverURL, token:token})}
+                    onPress={() => navigation.navigate('ManageQueue')}
                     style={{
                         height: 44,
                         width: 44,
@@ -299,7 +435,7 @@ const AdminPanel = ({ navigation, route }) => {
                         style={{
                             marginTop: SIZES.padding,
                         }}
-                        onPress={()=>{}}
+                        onPress={handelDelete}
                     />
                 </View>
             </View>

@@ -31,11 +31,10 @@ const Done = ({ ...props }) => (
 )
 
 const OnboardingStarter = ({ navigation, route }) => {
-    var serverURL = route.params.serverURL
     return (
         <Onboarding
-            onSkip={() => navigation.navigate('GetStarted',{serverURL:serverURL})}
-            onDone={() => navigation.navigate('GetStarted',{serverURL:serverURL})}
+            onSkip={() => navigation.navigate('GetStarted')}
+            onDone={() => navigation.navigate('GetStarted')}
             DotComponent={Dots}
             bottomBarColor="#ffffff"
             DoneButtonComponent={Done}

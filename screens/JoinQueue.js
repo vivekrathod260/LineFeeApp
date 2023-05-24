@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, Image, ScrollView, Alert } from 'react-native'
-import React, { useCallback, useReducer, useState } from 'react'
+import React, { useCallback, useReducer, useState, useEffect } from 'react'
 
 import axios from 'axios';
 
@@ -18,21 +18,30 @@ import { MaterialIcons, FontAwesome} from '@expo/vector-icons'
 
 
 const JoinQueue = ({ navigation, route }) => {
-    
-    var serverURL = route.params.serverURL
-    var token = route.params.token
-
 
     var creatorName = ""
     var queueName = ""
+
+    const [token, setToken] = useState("NULL")
+    const [serverURL, setServerURL] = useState("http://10.0.2.2:8000")
+    var str = ""
+
+    useEffect(() => {
+        AsyncStorage.getItem("server").then((value)=>{
+            setServerURL(value)
+        })
+        AsyncStorage.getItem("token").then((value)=>{
+            setToken(value)
+        })
+
+    }, [])
  
 
     const handelJoin = () => {
 
         console.log(creatorName)
         console.log(queueName)
-        console.log(token)
-
+        str = token
         axios.post(
             serverURL + '/joinqueue', 
             {
@@ -41,15 +50,16 @@ const JoinQueue = ({ navigation, route }) => {
             }, 
             {
                 headers: {
-                    'Authorization': `JWT ${token}`,
+                    'Authorization': `JWT ${str}`,
                     'Content-Type': 'application/json'
                 }
             })
             .then(response => {
-              var status = response.data.status;
-              console.log(status);
-
-              navigation.navigate('CustomerPanel',{serverURL:serverURL,token:token, queueName:queueName, creatorID:creatorName})
+                var status = response.data.status;
+                console.log(status);
+                AsyncStorage.setItem("JQqueueName",queueName)
+                AsyncStorage.setItem("JQcreatorname",creatorName)
+                navigation.navigate('CustomerPanel')
             })
             .catch(error => {
 
@@ -76,7 +86,7 @@ const JoinQueue = ({ navigation, route }) => {
                 }}
             >
                 <TouchableOpacity
-                    onPress={() => navigation.navigate('CreateQueue',{serverURL:serverURL, token:token})}
+                    onPress={() => navigation.navigate('CreateQueue')}
                     style={{
                         height: 44,
                         width: 44,
