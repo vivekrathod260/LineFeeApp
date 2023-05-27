@@ -59,8 +59,6 @@ const Login = ({ navigation, route }) => {
                 if(response.data.status=="ok")
                 {
                     var jwtToken = response.data.token;
-
-                    console.log(jwtToken)
     
                     AsyncStorage.setItem("token",jwtToken)
     
@@ -79,7 +77,6 @@ const Login = ({ navigation, route }) => {
                 }
             })
             .catch(error => {
-                console.error(error);
                 Alert.alert(
                     'Error',
                     "cannot connect to login",
@@ -108,8 +105,11 @@ const Login = ({ navigation, route }) => {
                         source={images.logo}
                         resizeMode="contain"
                         style={{
-                            tintColor: COLORS.primary,
+                            // tintColor: COLORS.primary,
                             marginVertical: 48,
+                            height:150,
+                            flex:1,
+                            resizeMode:"contain"
                         }}
                     />
 

@@ -171,8 +171,12 @@ const GetStarted = ({ navigation, route }) => {
                         <Image
                             source={images.logo}
                             style={{
-                                tintColor: COLORS.primary,
-                                marginVertical: 20,
+                                // tintColor: COLORS.primary,
+                                marginTop: 20,
+                                marginBottom:0,
+                                height:200,
+                                flex:1,
+                                resizeMode:"contain"
                             }}
                         />
 

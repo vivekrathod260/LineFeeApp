@@ -40,7 +40,9 @@ const styles = StyleSheet.create({
     },
     inputContainer: {
         width: '100%',
-        backgroundColor: COLORS.gray,
+        // backgroundColor: COLORS.gray,
+        backgroundColor: "#DDE6ED",
+
         paddingHorizontal: SIZES.padding,
         paddingVertical: SIZES.padding,
         borderRadius: 12,

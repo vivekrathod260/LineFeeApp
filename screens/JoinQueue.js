@@ -158,9 +158,9 @@ const JoinQueue = ({ navigation, route }) => {
             <PageContainer>
                 <View style={{ marginHorizontal: 22 }}>
                     {renderHeader()}
-                    <ScrollView>
+                    {/* <ScrollView> */}
                         {renderContent()}
-                    </ScrollView>
+                    {/* </ScrollView> */}
                 </View>
             </PageContainer>
         </SafeAreaView>

@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableOpacity, Alert } from 'react-native'
+import { View, Text, Image, TouchableOpacity, Alert, ScrollView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 
 import axios from 'axios';
@@ -9,12 +9,10 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 
 import PageContainer from '../components/PageContainer'
 import Button from '../components/Button'
-import Input from '../components/Input'
 
 import {MaterialIcons} from '@expo/vector-icons'
 
 import { COLORS, FONTS, SIZES, images } from '../constants'
-import MyJoinedQueues from './MyJoinedQueues';
 
 
 
@@ -183,152 +181,50 @@ const CustomerPanel = ({ navigation, route }) => {
                     style={{
                         alignItems: 'center',
                         marginVertical: 22,
+                        backgroundColor: COLORS.primary,
+                        // borderRadius:10,
+                        paddingBottom:15,
                     }}
                 >
-                    <Text style={{ ...FONTS.h3, marginTop: 24 }}>{queueName} - {creatorID}</Text>
+                    <Text style={{ ...FONTS.h3, marginTop: 24, color:COLORS.white }}>{queueName} - {creatorID}</Text>
                 </View>
 
 
-
-
-                <View
-                    style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        marginVertical: 22,
-                    }}
-                >
-                    <View
-                        style={{
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                        }}
-                    >
-                        <Text style={{ ...FONTS.h3 }}>Your Index</Text>
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={{ flexDirection: 'row', marginBottom: 20 }}>
+                        <View style={{ flex: 1, aspectRatio: 1, justifyContent: 'center', alignItems: 'center', margin: 5, borderRadius: 0, backgroundColor: '#2A2F4F' }}>
+                            <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'white' }}>Index</Text>
+                            <Text style={{ fontSize: 14, color: 'white' }}>{data.myIndx}</Text>
+                        </View>
+                        <View style={{ flex: 1, aspectRatio: 1, justifyContent: 'center', alignItems: 'center', margin: 5, borderRadius: 0, backgroundColor: '#917FB3' }}>
+                            <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'white' }}>Length</Text>
+                            <Text style={{ fontSize: 14, color: 'white' }}>{data.length}</Text>
+                        </View>
+                        <View style={{ flex: 1, aspectRatio: 1, justifyContent: 'center', alignItems: 'center', margin: 5, borderRadius: 0, backgroundColor: '#E5BEEC' }}>
+                            <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'white' }}>1st Person</Text>
+                            <Text style={{ fontSize: 14, color: 'white' }}>{data.first}</Text>
+                        </View>
                     </View>
-                    <View
-                        style={{
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                        }}
-                    >
-                        <Text style={{ ...FONTS.h3 }}>{data.myIndx}</Text>
-                    </View>
-                </View>
-
-
-                <View
-                    style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        marginVertical: 22,
-                    }}
-                >
-                    <View
-                        style={{
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                        }}
-                    >
-                        <Text style={{ ...FONTS.h3 }}>Queue Length</Text>
-                    </View>
-                    <View
-                        style={{
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                        }}
-                    >
-                        <Text style={{ ...FONTS.h3 }}>{data.length}</Text>
+                    <View style={{ flexDirection: 'row' }}>
+                        <View style={{ flex: 1, aspectRatio: 1, justifyContent: 'center', alignItems: 'center', margin: 5, borderRadius: 0, backgroundColor: '#19376D' }}>
+                            <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'white' }}>Working Speed</Text>
+                            <Text style={{ fontSize: 14, color: 'white' }}>{data.speed}</Text>
+                        </View>
+                        <View style={{ flex: 1, aspectRatio: 1, justifyContent: 'center', alignItems: 'center', margin: 5, borderRadius: 0, backgroundColor: '#576CBC' }}>
+                            <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'white' }}>Estimated Time</Text>
+                            <Text style={{ fontSize: 14, color: 'white' }}>{data.estTime}</Text>
+                        </View>
+                        <View style={{ flex: 1, aspectRatio: 1, justifyContent: 'center', alignItems: 'center', margin: 5, borderRadius: 0, backgroundColor: '#A5D7E8' }}>
+                            <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'white' }}>Null</Text>
+                            <Text style={{ fontSize: 14, color: 'white' }}>Null</Text>
+                        </View>
                     </View>
                 </View>
 
 
                 <View
                     style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        marginVertical: 22,
-                    }}
-                >
-                    <View
-                        style={{
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                        }}
-                    >
-                        <Text style={{ ...FONTS.h3 }}>1st Person</Text>
-                        {/* <Text style={{ ...FONTS.h5 }}>1st Person</Text> */}
-                    </View>
-                    <View
-                        style={{
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                        }}
-                    >
-                        <Text style={{ ...FONTS.h3 }}>{data.first}</Text>
-                    </View>
-                </View>
-
-
-                <View
-                    style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        marginVertical: 22,
-                    }}
-                >
-                    <View
-                        style={{
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                        }}
-                    >
-                        <Text style={{ ...FONTS.h3 }}>Working Speed</Text>
-                    </View>
-                    <View
-                        style={{
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                        }}
-                    >
-                        <Text style={{ ...FONTS.h3 }}>{data.speed}</Text>
-                    </View>
-                </View>
-
-
-                <View
-                    style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        marginVertical: 22,
-                    }}
-                >
-                    <View
-                        style={{
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                        }}
-                    >
-                        <Text style={{ ...FONTS.h3 }}>Your Estimated Time</Text>
-                    </View>
-                    <View
-                        style={{
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                        }}
-                    >
-                        <Text style={{ ...FONTS.h3 }}>{data.estTime}</Text>
-                    </View>
-                </View>
-
-
-
-
-
-
-                <View
-                    style={{
-                        marginTop:80,
+                        marginTop:150,
                     }}
                 >
                     <Button
@@ -350,7 +246,9 @@ const CustomerPanel = ({ navigation, route }) => {
             <PageContainer>
                 <View style={{ marginHorizontal: 22 }}>
                     {renderHeader()}
-                    <RenderFeatures1 data={data}/>
+                    <ScrollView>
+                        <RenderFeatures1 data={data}/>
+                    </ScrollView>
                 </View>
             </PageContainer>
         </SafeAreaView>

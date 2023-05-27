@@ -100,7 +100,6 @@ export default function App() {
                 <Stack.Screen
                     name="OnboardingStarter"
                     component={OnboardingStarter}
-                    // initialParams={{ serverURL:serverURL }}
                     options={{
                         headerShown: false,
                     }}
@@ -108,7 +107,6 @@ export default function App() {
                 <Stack.Screen
                     name="GetStarted"
                     component={GetStarted}
-                    // initialParams={{ serverURL:serverURL }}
                     options={{
                         headerShown: false,
                     }}
@@ -116,7 +114,6 @@ export default function App() {
                 <Stack.Screen
                     name="BottomTabNavigation"
                     component={BottomTabNavigation}
-                    // initialParams={{ serverURL:serverURL, token:token }}
                     options={{
                         headerShown: false,
                     }}

@@ -130,7 +130,7 @@ const Profile = ({ navigation, route }) => {
                         borderRadius: SIZES.padding,
                     }}
                 />
-                {user && <Text style={{ ...FONTS.h1, marginTop: 24 }}>{user}</Text>}
+                {user && <Text style={{ ...FONTS.h1, marginTop: 24, color:COLORS.primary }}>{user}</Text>}
 
             </View>
         )
@@ -246,7 +246,7 @@ const Profile = ({ navigation, route }) => {
                             marginLeft: 24,
                         }}
                     >
-                        {"Find Nearby Places"}
+                        Find Nearby Places
                     </Text>
                 </TouchableOpacity>
 

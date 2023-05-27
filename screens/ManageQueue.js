@@ -29,7 +29,6 @@ const ManageQueue = ({ navigation, route }) => {
 
     useEffect(() => {
         navigation.addListener('focus', async () => {
-            await console.log("hello ")
             await AsyncStorage.getItem("server").then((value)=>{
                 setServerURL(value)
             })
@@ -122,7 +121,6 @@ const ManageQueue = ({ navigation, route }) => {
                             key={index}
                             name={q.split("#")[1]}
                             location={q.split("#")[0]}
-                            // postedDate={"11"}
                             onPress={()=> {
                                 AsyncStorage.setItem("APqueuename",q.split("#")[1])
                                 navigation.navigate("AdminPanel")

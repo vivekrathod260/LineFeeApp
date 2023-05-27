@@ -11,7 +11,7 @@ const DonationCard = (props) => {
                 width: SIZES.width - 44,
                 height: 148,
                 borderRadius: SIZES.padding,
-                backgroundColor: COLORS.white,
+                backgroundColor: "#DDE6ED",
                 flexDirection: 'row',
                 justifyContent: 'space-between',
                 paddingHorizontal: SIZES.padding,

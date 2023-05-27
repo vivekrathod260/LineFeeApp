@@ -58,7 +58,6 @@ const Register = ({ navigation, route }) => {
                 })
                 .then(response => {
                     var status = response.data.status;
-                    console.log(status);
                     if(status="User created")
                         navigation.navigate('Login')
                     else {
@@ -101,8 +100,10 @@ const Register = ({ navigation, route }) => {
                             source={images.logo}
                             resizeMode="contain"
                             style={{
-                                tintColor: COLORS.primary,
                                 marginVertical: 22,
+                                height:150,
+                                flex:1,
+                                resizeMode:"contain"
                             }}
                         />
 

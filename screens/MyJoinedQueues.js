@@ -13,7 +13,6 @@ import PageContainer from '../components/PageContainer'
 import { COLORS, SIZES, FONTS } from '../constants'
 
 import { MaterialIcons } from '@expo/vector-icons'
-import { async } from 'validate.js';
 
 
 
@@ -27,7 +26,6 @@ const MyJoinedQueues = ({ navigation, route }) => {
 
     useEffect(() => {
         navigation.addListener('focus', async () => {
-            // await console.log("hello ")
 
             await AsyncStorage.getItem("server").then((value)=>{
                 setServerURL(value)

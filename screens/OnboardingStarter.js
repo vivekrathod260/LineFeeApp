@@ -49,7 +49,7 @@ const OnboardingStarter = ({ navigation, route }) => {
                     ),
                     title: 'Line Free',
                     subtitle:
-                        'Effortlessly manage queues and eliminate wait times with our innovative queue management system.',
+                        'Efficient Queuing at Your Fingertips with LINEFREE',
                 },
                 {
                     backgroundColor: '#fff',
@@ -59,9 +59,9 @@ const OnboardingStarter = ({ navigation, route }) => {
                             source={require('../assets/images/onboarding_2.png')}
                         />
                     ),
-                    title: 'Say Goodbye to Long Queues',
+                    title: 'Transforming Waiting Time',
                     subtitle:
-                        'Revolutionize Your Waiting Experience',
+                        "Discover LINEFREE's Virtual Queue",
                 },
             ]}
         />

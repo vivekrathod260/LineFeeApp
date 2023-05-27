@@ -11,6 +11,7 @@ import Button from '../components/Button'
 import Input from '../components/Input'
 
 import {MaterialIcons} from '@expo/vector-icons'
+import { Ionicons } from '@expo/vector-icons';
 import { COLORS, FONTS, SIZES, images } from '../constants'
 
 
@@ -18,75 +19,6 @@ import { COLORS, FONTS, SIZES, images } from '../constants'
 
 const AdminPanel = ({ navigation, route }) => {
     
-
-    // var queueName = ""
-
-    // const [data, setData] = useState({})
-
-    // const [token, setToken] = useState("NULL")
-    // const [serverURL, setServerURL] = useState("http://10.0.2.2:8000")
-    // var str = ""
-
-    // useEffect(() => {
-    //     AsyncStorage.getItem("server").then((value)=>{
-    //         setServerURL(value)
-    //     })
-    //     AsyncStorage.getItem("token").then((value)=>{
-    //         setToken(value)
-    //     })
-    //     AsyncStorage.getItem("APqueuename").then((value)=>{
-    //         queueName = value
-    //     })
-
-
-    //     console.log("hi")
-    //     str = token
-    //     axios.post(
-    //         serverURL + '/adminpanel', 
-    //         {
-    //             queueName: queueName
-    //         }, 
-    //         {
-    //             headers: {
-    //                 'Authorization': `JWT ${str}`,
-    //                 'Content-Type': 'application/json'
-    //             }
-    //         })
-    //         .then(response => {
-    //             var status = response.data.status;
-
-    //             if(status=="ok")
-    //             {
-    //                 setData(response.data.data)
-    //             }
-    //             else
-    //             {
-    //                 Alert.alert(
-    //                     'Error',
-    //                     status,
-    //                     [
-    //                     { text: 'OK', onPress: () => {} },
-    //                     ]
-    //                 );
-    //             }
-    //         })
-    //         .catch(error => {
-
-    //             Alert.alert(
-    //                 'Error',
-    //                 'Cannot get queue details',
-    //                 [
-    //                 { text: 'OK', onPress: () => {} },
-    //                 ]
-    //             );
-
-    //         });
-
-    // }, [])
-
-
-
-
     const [data, setData] = useState({})
     const [serverURL, setServerURL] = useState("http://10.0.2.2:8000")
     const [token, setToken] = useState("")
@@ -198,7 +130,7 @@ const AdminPanel = ({ navigation, route }) => {
                         'Success',
                         "Popped successfully",
                         [
-                            { text: 'OK', onPress: () => {} },
+                            { text: 'OK', onPress: () => {navigation.navigate("ManageQueue")} },
                         ]
                     );
                 }
@@ -303,117 +235,47 @@ const AdminPanel = ({ navigation, route }) => {
                     style={{
                         alignItems: 'center',
                         marginVertical: 22,
+                        backgroundColor: COLORS.primary,
+                        // borderRadius:10,
+                        paddingBottom:15,
                     }}
                 >
-                    <Text style={{ ...FONTS.h3, marginTop: 24 }}>{queueName} - You</Text>
+                    <Text style={{ ...FONTS.body2, marginTop: 24,color:COLORS.white  }}>{queueName} - You</Text>
                 </View>
-
-
-
 
                 
-                <View
-                    style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        marginVertical: 22,
-                    }}
-                >
-                    <View
-                        style={{
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                        }}
-                    >
-                        <Text style={{ ...FONTS.h3 }}>Queue Length</Text>
+
+
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={{ flexDirection: 'row', marginBottom: 20 }}>
+                        <View style={{ flex: 1, aspectRatio: 1, justifyContent: 'center', alignItems: 'center', margin: 5, borderRadius: 0, backgroundColor: '#2A2F4F' }}>
+                            <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'white' }}>Queue Length</Text>
+                            <Text style={{ fontSize: 14, color: 'white' }}>{data.length}</Text>
+                        </View>
+                        <View style={{ flex: 1, aspectRatio: 1, justifyContent: 'center', alignItems: 'center', margin: 5, borderRadius: 0, backgroundColor: '#917FB3' }}>
+                            <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'white' }}>1st Index</Text>
+                            <Text style={{ fontSize: 14, color: 'white' }}>{data.first}</Text>
+                        </View>
+                        <View style={{ flex: 1, aspectRatio: 1, justifyContent: 'center', alignItems: 'center', margin: 5, borderRadius: 0, backgroundColor: '#E5BEEC' }}>
+                            <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'white' }}>Working Speed</Text>
+                            <Text style={{ fontSize: 14, color: 'white' }}>{data.speed}</Text>
+                        </View>
                     </View>
-                    <View
-                        style={{
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                        }}
-                    >
-                        <Text style={{ ...FONTS.h3 }}>{data.length}</Text>
+                    <View style={{ flexDirection: 'row' }}>
+                        <View style={{ flex: 1, aspectRatio: 1, justifyContent: 'center', alignItems: 'center', margin: 5, borderRadius: 0, backgroundColor: '#19376D' }}>
+                            <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'white' }}>Estimated Time to empty</Text>
+                            <Text style={{ fontSize: 14, color: 'white' }}>{data.estTimeToEmpty} min</Text>
+                        </View>
+                        <View style={{ flex: 1, aspectRatio: 1, justifyContent: 'center', alignItems: 'center', margin: 5, borderRadius: 0, backgroundColor: '#576CBC' }}>
+                            <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'white' }}>Null</Text>
+                            <Text style={{ fontSize: 14, color: 'white' }}>Null</Text>
+                        </View>
+                        <View style={{ flex: 1, aspectRatio: 1, justifyContent: 'center', alignItems: 'center', margin: 5, borderRadius: 0, backgroundColor: '#A5D7E8' }}>
+                            <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'white' }}>Null</Text>
+                            <Text style={{ fontSize: 14, color: 'white' }}>Null</Text>
+                        </View>
                     </View>
                 </View>
-
-                <View
-                    style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        marginVertical: 22,
-                    }}
-                >
-                    <View
-                        style={{
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                        }}
-                    >
-                        <Text style={{ ...FONTS.h3 }}>1st person in line</Text>
-                    </View>
-                    <View
-                        style={{
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                        }}
-                    >
-                        <Text style={{ ...FONTS.h3 }}>{data.first}</Text>
-                    </View>
-                </View>
-
-                <View
-                    style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        marginVertical: 22,
-                    }}
-                >
-                    <View
-                        style={{
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                        }}
-                    >
-                        <Text style={{ ...FONTS.h3 }}>Working Speed</Text>
-                    </View>
-                    <View
-                        style={{
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                        }}
-                    >
-                        <Text style={{ ...FONTS.h3 }}>{data.speed}</Text>
-                    </View>
-                </View>
-
-                <View
-                    style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        marginVertical: 22,
-                    }}
-                >
-                    <View
-                        style={{
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                        }}
-                    >
-                        <Text style={{ ...FONTS.h3 }}>Estimated time to empty</Text>
-                    </View>
-                    <View
-                        style={{
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                        }}
-                    >
-                        <Text style={{ ...FONTS.h3 }}>{data.estTimeToEmpty} min</Text>
-                    </View>
-                </View>
-
-
-
 
 
                 <View
