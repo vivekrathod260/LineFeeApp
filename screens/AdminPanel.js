@@ -194,6 +194,8 @@ const AdminPanel = ({ navigation, route }) => {
                 );
 
             });
+
+            navigation.navigate('ManageQueue');
     }
 
     function renderHeader() {
@@ -264,7 +266,7 @@ const AdminPanel = ({ navigation, route }) => {
                     <View style={{ flexDirection: 'row' }}>
                         <View style={{ flex: 1, aspectRatio: 1, justifyContent: 'center', alignItems: 'center', margin: 5, borderRadius: 0, backgroundColor: '#19376D' }}>
                             <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'white' }}>Estimated Time to empty</Text>
-                            <Text style={{ fontSize: 14, color: 'white' }}>{data.estTimeToEmpty} min</Text>
+                            <Text style={{ fontSize: 14, color: 'white' }}>{data.estTime} min</Text>
                         </View>
                         <View style={{ flex: 1, aspectRatio: 1, justifyContent: 'center', alignItems: 'center', margin: 5, borderRadius: 0, backgroundColor: '#576CBC' }}>
                             <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'white' }}>Null</Text>

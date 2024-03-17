@@ -47,7 +47,7 @@ const JoinQueue = ({ navigation, route }) => {
             {
                 creatorID: creatorName,
                 queueName: queueName
-            }, 
+            },
             {
                 headers: {
                     'Authorization': `JWT ${str}`,
@@ -57,15 +57,22 @@ const JoinQueue = ({ navigation, route }) => {
             .then(response => {
                 var status = response.data.status;
                 console.log(status);
-                AsyncStorage.setItem("JQqueueName",queueName)
-                AsyncStorage.setItem("JQcreatorname",creatorName)
-                navigation.navigate('CustomerPanel')
+                if(status == "joined !")
+                {
+                    AsyncStorage.setItem("JQqueueName",queueName)
+                    AsyncStorage.setItem("JQcreatorname",creatorName)
+                    navigation.navigate('CustomerPanel')
+                }
+                else
+                {
+                    throw 1;
+                }
             })
             .catch(error => {
 
                 Alert.alert(
                     'Error',
-                    'Cannot join queue',
+                    'Queue not found !',
                     [
                       { text: 'OK', onPress: () => {} },
                     ]

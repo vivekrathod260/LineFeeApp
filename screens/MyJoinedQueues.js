@@ -46,7 +46,7 @@ const MyJoinedQueues = ({ navigation, route }) => {
         
                         if(status=="ok")
                         {
-                            setList(response.data.lst)
+                            setList(response.data.lst) // may generate error
                         }
                         else
                         {
@@ -118,12 +118,12 @@ const MyJoinedQueues = ({ navigation, route }) => {
                 {list.map((q, index) => (
                     <DonationCard
                         key={index}
-                        name={q.split("#")[1]}
-                        location={q.split("#")[0]}
+                        name={q[1]}
+                        location={q[3]}
                         // postedDate={"11"}
                         onPress={async ()=> {
-                            await AsyncStorage.setItem("JQqueueName",q.split("#")[1])
-                            await AsyncStorage.setItem("JQcreatorname",q.split("#")[0])
+                            await AsyncStorage.setItem("JQqueueName", q[1])
+                            await AsyncStorage.setItem("JQcreatorname", q[2])
                             await navigation.navigate("CustomerPanel")
                         }}
                     />

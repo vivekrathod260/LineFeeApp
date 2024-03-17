@@ -119,10 +119,10 @@ const ManageQueue = ({ navigation, route }) => {
                     {list.map((q, index) => (
                         <DonationCard
                             key={index}
-                            name={q.split("#")[1]}
-                            location={q.split("#")[0]}
+                            name={q[1]}
+                            location={q[2]}
                             onPress={()=> {
-                                AsyncStorage.setItem("APqueuename",q.split("#")[1])
+                                AsyncStorage.setItem("APqueuename", q[1])
                                 navigation.navigate("AdminPanel")
                             }}
                         />

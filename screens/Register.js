@@ -49,8 +49,11 @@ const Register = ({ navigation, route }) => {
                 serverURL + '/register', 
                 {
                     userName: username,
-                    password: password1
-                }, 
+                    password: password1,
+                    fname: fname,
+                    lname: lname,
+                    email: email
+                },
                 {
                 headers: {
                     'Content-Type': 'multipart/form-data'
